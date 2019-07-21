@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "60347287475",
+    "firebase_url": "https://handdetection-427e8.firebaseio.com",
+    "project_id": "handdetection-427e8",
+    "storage_bucket": "handdetection-427e8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:60347287475:android:c30ad4fa2bfb37e7",
+        "android_client_info": {
+          "package_name": "handdetection.androidexample.com.handdetection"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "60347287475-7sbh0nfis85be3qnvu3a9vdirrno4vmc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1AugQG9z9OpB4FJsU-iAkrcEnBHZTp5g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "60347287475-7sbh0nfis85be3qnvu3a9vdirrno4vmc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
