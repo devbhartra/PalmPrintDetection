@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -48,6 +49,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     private Button btnChoose, btnUpload;
+    private TextView text;
+//    private Double val;
+    private JsonElement responsePost;
     private ImageView imageView;
     private Uri filePath;
     private final int PICK_IMAGE_REQUEST = 71;
@@ -144,9 +148,12 @@ public class MainActivity extends AppCompatActivity {
                                                     if (response.code() == 200) {
                                                         String data = response.body().string();
                                                         Log.e("data",data);
-                                                        JsonElement responsePost = new Gson().fromJson(data,JsonElement.class);
-                                                        Double val = responsePost.getAsJsonObject().get("similarity_score").getAsDouble();
 
+                                                          Toast.makeText(MainActivity.this, data, Toast.LENGTH_LONG).show();
+//                                                          JsonElement responsePost = new Gson().fromJson(data,JsonElement.class);
+
+//                                                        Double val = responsePost.getAsJsonObject().get("similarity_score").getAsDouble();
+//
                                                     }else {
 
                                                     }
