@@ -12,14 +12,14 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
-public interface HelloApi {
+public interface ScoreApi {
     @GET("posts")
     Call<List<Post>> getPosts();
 
-//    @FormUrlEncoded
+    //    @FormUrlEncoded
 //    @POST("/spi/Hello")
 //    Call<UploadResponseModel> getScore(@Field("url") String url);
     @Headers({"Accept: application/json"})
-    @POST("api/Img_Dowlodr")
-    Call<ResponseBody> getScore(@Body HelloRequest request);
+    @POST("api/Similrty_score")
+    Call<ResponseBody> getScore(@Body ScoreRequest request);
 }

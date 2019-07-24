@@ -27,6 +27,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Upload" />
+
+
+
     </LinearLayout>
 
     <ImageView
@@ -36,12 +39,14 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true" />
 
-    <TextView
-        android:id="@+id/scoreDisplay"
+    <Button
+        android:id="@+id/getScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="35dp" />
+        android:layout_marginBottom="11dp"
+        android:text="Get Score" />
+
 
 </RelativeLayout>

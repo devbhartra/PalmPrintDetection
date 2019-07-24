@@ -46,7 +46,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnChoose, btnUpload;
+    private Button btnChoose, btnUpload, getScore;
     //  private JsonElement responsePost;
     private ImageView imageView;
     private Uri filePath;
@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         //Initialize Views
         btnChoose = (Button) findViewById(R.id.btnChoose);
         btnUpload = (Button) findViewById(R.id.btnUpload);
+        getScore = (Button) findViewById(R.id.getScore);
         imageView = (ImageView) findViewById(R.id.imgView);
 
         btnChoose.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +77,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 uploadImage();
+            }
+        });
+
+        getScore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getScore();
             }
         });
 
@@ -144,7 +152,8 @@ public class MainActivity extends AppCompatActivity {
                                                     if (response.code() == 200) {
                                                         String data = response.body().string();
                                                         Log.e("data", data);
-                                                        Toast.makeText(MainActivity.this, data, Toast.LENGTH_LONG).show();
+//                                                        Toast.makeText(MainActivity.this, data, Toast.LENGTH_LONG).show();
+                                                        Toast.makeText(MainActivity.this, "Click on the Get Score Button!", Toast.LENGTH_LONG).show();
 //                                                          JsonElement responsePost = new Gson().fromJson(data,JsonElement.class);
 //                                                        Double val = responsePost.getAsJsonObject().get("similarity_score").getAsDouble();
                                                     } else {
@@ -185,6 +194,87 @@ public class MainActivity extends AppCompatActivity {
                     });
         }
     }
+
+
+    private void getScore() {
+        if (filePath != null) {
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Searching...");
+            progressDialog.show();
+
+            final StorageReference ref = storageReference.child("images/" + UUID.randomUUID().toString());
+            ref.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressDialog.dismiss();
+                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    Uri downloadUrl = uri;
+                                    String url = downloadUrl.toString();
+                                    Log.e("url", url);
+
+
+                                    Retrofit retrofit = new Retrofit.Builder()
+                                            .baseUrl("http://106.51.80.71:8082/")       //address of the api being called.
+                                            .addConverterFactory(GsonConverterFactory.create())
+                                            .build();
+
+                                    ScoreApi score = retrofit.create(ScoreApi.class);
+                                    Call<ResponseBody> getScore = score.getScore(new ScoreRequest(url));
+                                    getScore.enqueue(new Callback<ResponseBody>() {
+                                        @Override
+                                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                                            try {
+                                                if (response != null) {
+                                                    if (response.code() == 200) {
+                                                        String data = response.body().string();
+                                                        Log.e("data", data);
+                                                        Toast.makeText(MainActivity.this, data, Toast.LENGTH_LONG).show();
+//                                                          JsonElement responsePost = new Gson().fromJson(data,JsonElement.class);
+//                                                        Double val = responsePost.getAsJsonObject().get("similarity_score").getAsDouble();
+                                                    } else {
+
+                                                    }
+                                                }
+
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                            Log.e("upload error", t.getMessage());
+                                        }
+                                    });
+                                }
+                            });
+                            Toast.makeText(MainActivity.this, "Retrieving", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(MainActivity.this, "Match Found", Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(MainActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
+                                    .getTotalByteCount());
+                            progressDialog.setMessage("Comparing " + (int) progress + "%");
+                        }
+                    });
+        }
+    }
+
+
 
 }
 
