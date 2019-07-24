@@ -44,14 +44,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-//import androidx.appcompat.app.AppCompatActivity;
-
 public class MainActivity extends AppCompatActivity {
 
     private Button btnChoose, btnUpload;
-    private TextView text;
-//    private Double val;
-    private JsonElement responsePost;
+    //  private JsonElement responsePost;
     private ImageView imageView;
     private Uri filePath;
     private final int PICK_IMAGE_REQUEST = 71;
@@ -133,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                                     Retrofit retrofit = new Retrofit.Builder()
-                                            .baseUrl("http://106.51.80.71:8082/")
+                                            .baseUrl("http://106.51.80.71:8082/")       //address of the api being called.
                                             .addConverterFactory(GsonConverterFactory.create())
                                             .build();
 
@@ -147,14 +143,11 @@ public class MainActivity extends AppCompatActivity {
                                                 if (response != null) {
                                                     if (response.code() == 200) {
                                                         String data = response.body().string();
-                                                        Log.e("data",data);
-
-                                                          Toast.makeText(MainActivity.this, data, Toast.LENGTH_LONG).show();
+                                                        Log.e("data", data);
+                                                        Toast.makeText(MainActivity.this, data, Toast.LENGTH_LONG).show();
 //                                                          JsonElement responsePost = new Gson().fromJson(data,JsonElement.class);
-
 //                                                        Double val = responsePost.getAsJsonObject().get("similarity_score").getAsDouble();
-//
-                                                    }else {
+                                                    } else {
 
                                                     }
                                                 }
@@ -166,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
 
                                         @Override
                                         public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                            Log.e("upload error",t.getMessage());
+                                            Log.e("upload error", t.getMessage());
                                         }
                                     });
                                 }

@@ -20,6 +20,6 @@ public interface HelloApi {
 //    @POST("/spi/Hello")
 //    Call<UploadResponseModel> getScore(@Field("url") String url);
     @Headers({"Accept: application/json"})
-    @POST("api/Hello")
+    @POST("api/Similrty_score")
     Call<ResponseBody> getScore(@Body HelloRequest request);
 }
